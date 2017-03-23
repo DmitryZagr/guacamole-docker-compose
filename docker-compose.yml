@@ -2,7 +2,7 @@ version: '2'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     restart: always
     volumes:
       - ./init:/docker-entrypoint-initdb.d
@@ -14,14 +14,14 @@ services:
     networks:
       - guac
   guacd:
-    image: glyptodon/guacd
+    image: glyptodon/guacd:latest
     restart: always
     networks:
       - guac
     ports:
       - "4822:4822"
   guac:
-    image: glyptodon/guacamole
+    image: glyptodon/guacamole:latest
     restart: always
     ports:
       - "8080:8080"
