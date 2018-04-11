@@ -14,14 +14,14 @@ services:
     networks:
       - guac
   guacd:
-    image: guacamole/guacd:0.9.13-incubating
+    image: guacamole/guacd:0.9.14
     restart: always
     networks:
       - guac
     ports:
       - "4822:4822"
   guac:
-    image: guacamole/guacamole:0.9.13-incubating
+    image: guacamole/guacamole:0.9.14
     restart: always
     ports:
       - "8080:8080"
