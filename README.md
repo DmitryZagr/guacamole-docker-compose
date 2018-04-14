@@ -16,6 +16,16 @@ $ cd ..
 docker-compose up -d
 ```
 
-Then go to `http://DOCKER_HOST:8080/guacamole/`
+## configure keycloak
 
-Log in as user: `guacadmin` and password: `guacadmin`.
++ Go to `http://DOCKER_HOST:8081/auth`
++ Log into admin console with `admin` `admin` credentials
++ Add new keycloak client:
+  + Specify the client id - `guacamole`
+  + Turn on Implicit Flow Enabled toggle button
+  + Specify Valid Redirect URIs - `*`
+
+## using guacamole
+
+Then go to `http://DOCKER_HOST:8080/guacamole/`
+Log in as any user specified in keycloak.
