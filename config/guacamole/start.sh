@@ -270,7 +270,7 @@ END
 
     # Add required .jar files to GUACAMOLE_LIB and GUACAMOLE_EXT
     ln -s /opt/guacamole/postgresql/postgresql-*.jar "$GUACAMOLE_LIB"
-    #ln -s /opt/guacamole/postgresql/guacamole-auth-*.jar "$GUACAMOLE_EXT"
+    ln -s /opt/guacamole/postgresql/guacamole-auth-*.jar "$GUACAMOLE_EXT"
 
 }
 
@@ -296,7 +296,7 @@ associate_openid() {
   set_optional_property                                   \
         "openid-max-nonce-validity" \
         "$OPENID_MAX_NONCE_VALIDITY"  
-  ln -s /opt/guacamole/openid/guacamole-auth-*.jar "$GUACAMOLE_EXT"
+  ln -s /opt/guacamole/openid/*guacamole-auth-*.jar "$GUACAMOLE_EXT"
 }
 
 ##
@@ -430,6 +430,12 @@ set_property "guacd-port"     "$GUACD_PORT"
 
 INSTALLED_AUTH=""
 
+# Use openid-connect if identity provider specified
+if  [ -n "$KEYCLOAK_HOSTNAME" ]; then
+    associate_openid
+    INSTALLED_AUTH="$INSTALLED_AUTH openid"
+fi
+
 # Use MySQL if database specified
 if [ -n "$MYSQL_DATABASE" ]; then
     associate_mysql
@@ -446,12 +452,6 @@ fi
 if [ -n "$LDAP_HOSTNAME" ]; then
     associate_ldap
     INSTALLED_AUTH="$INSTALLED_AUTH ldap"
-fi
-
-# Use openid-connect if identity provider specified
-if  [ -n "$KEYCLOAK_HOSTNAME" ]; then
-    associate_openid
-    INSTALLED_AUTH="$INSTALLED_AUTH openid"
 fi
 
 #

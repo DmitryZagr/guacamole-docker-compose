@@ -6,7 +6,7 @@ services:
     restart: always
     volumes:
       - ./init:/docker-entrypoint-initdb.d
-      - ./data:/var/lib/postgresql/data
+      - ./data/guacamole:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: guacamole_user
       POSTGRES_PASSWORD: some_password
@@ -14,20 +14,20 @@ services:
     networks:
       - guac
   guacd:
-    image: guacamole/guacd:0.9.14
+    image: guacamole/guacd
     restart: always
     networks:
       - guac
     ports:
       - "4822:4822"
   guac:
-    image: guacamole/guacamole:0.9.14
+    image: guacamole/guacamole
     restart: always
     ports:
       - "8080:8080"
     volumes:
       - ./openid:/opt/guacamole/openid/
-      - ./config/start.sh:/opt/guacamole/bin/start.sh
+      - ./config/guacamole/start.sh:/opt/guacamole/bin/start.sh
     environment:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_DATABASE: guacamole_db
@@ -38,7 +38,7 @@ services:
       GUACD_HOSTNAME: guacd
       
       GUACAMOLE_HOSTNAME: http://localhost:8080/guacamole/#
-      KEYCLOAK_HOSTNAME: keycloak_hostname
+      KEYCLOAK_HOSTNAME: http://localhost:8081/auth
       KEYCLOAK_REALM: master
       KEYCLOAK_CLIENT: guacamole
       OPENID_CLAIM_TYPE: preferred_username
@@ -54,6 +54,31 @@ services:
     links:
       - postgres
       - guacd
+  keycloakpostgres:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - ./data/keycloak:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    networks:
+      - guac
+  keycloak:
+    image: jboss/keycloak-openshift
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - POSTGRES_PORT_5432_TCP_ADDR=keycloakpostgres
+      - POSTGRES_PORT_5432_TCP_PORT=5432
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+    ports:
+      - "8081:8080"
+    networks:
+      - guac
 
 volumes:
   data:
