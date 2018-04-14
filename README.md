@@ -1,4 +1,4 @@
-# guacamole-docker-compose
+# guacamole with keycloak authentication docker-compose
 
 ## prepare
 
