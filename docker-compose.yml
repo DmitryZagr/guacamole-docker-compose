@@ -1,4 +1,4 @@
-version: '2'
+version: '3.3'
 
 services:
   postgres:
@@ -11,13 +11,9 @@ services:
       POSTGRES_USER: guacamole_user
       POSTGRES_PASSWORD: some_password
       POSTGRES_DB: guacamole_db
-    networks:
-      - guac
   guacd:
     image: guacamole/guacd:0.9.14
     restart: always
-    networks:
-      - guac
     ports:
       - "4822:4822"
   guac:
@@ -33,19 +29,6 @@ services:
       GUACD_PORT_4822_TCP_ADDR: guacd
       GUACD_PORT_4822_TCP_PORT: 4822
       GUACD_HOSTNAME: guacd
-    networks:
-      - guac
     depends_on:
       - postgres
       - guacd
-    links:
-      - postgres
-      - guacd
-
-volumes:
-  data:
-    driver: local
-
-networks:
-  guac:
-    driver: bridge
