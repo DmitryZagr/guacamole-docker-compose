@@ -12,12 +12,12 @@ services:
       POSTGRES_PASSWORD: some_password
       POSTGRES_DB: guacamole_db
   guacd:
-    image: guacamole/guacd:0.9.14
+    image: guacamole/guacd:1.0.0
     restart: always
     ports:
       - "4822:4822"
   guac:
-    image: guacamole/guacamole:0.9.14
+    image: guacamole/guacamole:1.0.0
     restart: always
     ports:
       - "8080:8080"
