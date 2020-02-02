@@ -6,7 +6,7 @@
 $ git clone https://github.com/DmitryZagr/guacamole-docker-compose.git
 $ cd guacamole-docker-compose
 $ cd init 
-$ docker run --rm guacamole/guacamole:1.0.0 /opt/guacamole/bin/initdb.sh --postgres > initdb.sql
+$ docker run --rm guacamole/guacamole:1.1.0 /opt/guacamole/bin/initdb.sh --postgres > initdb.sql
 $ cd ..
 ```
 

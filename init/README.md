@@ -3,6 +3,6 @@
 ### run here
 
 ```bash
-$ docker run --rm guacamole/guacamole:1.0.0 /opt/guacamole/bin/initdb.sh --postgres > initdb.sql
+$ docker run --rm guacamole/guacamole:1.1.0 /opt/guacamole/bin/initdb.sh --postgres > initdb.sql
 ```
 
