@@ -1,8 +1,9 @@
 version: '3.3'
 
 services:
+
   postgres:
-    image: postgres:9.6.11
+    image: postgres:12.2
     restart: always
     volumes:
       - ./init:/docker-entrypoint-initdb.d
@@ -11,11 +12,11 @@ services:
       POSTGRES_USER: guacamole_user
       POSTGRES_PASSWORD: some_password
       POSTGRES_DB: guacamole_db
+
   guacd:
     image: guacamole/guacd:1.1.0
     restart: always
-    ports:
-      - "4822:4822"
+
   guac:
     image: guacamole/guacamole:1.1.0
     restart: always
